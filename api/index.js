@@ -23,8 +23,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 
-app.get("/", (_, res) => res.render("index"));
-app.post("/game", (req, res) => {
+app.get("/api", (_, res) => res.render("index"));
+app.post("/api/game", (req, res) => {
   const { difficulty } = req.body;
   // easy | medium | hard | mixed
   console.log(difficulty);
