@@ -41,3 +41,5 @@ app.post("/failure", (req, res) => res.render("game", { result: "failure" }));
 
 app.listen(8000);
 console.log(`Web server started and running at http://localhost:8000`);
+
+module.exports = app;
