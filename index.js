@@ -24,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 
 app.get("/", (_, res) => res.render("index"));
+// TODO: pull images from database, select a random one, and display it
 app.get("/game", (_, res) => res.render("game"));
 
 app.listen(8000);
