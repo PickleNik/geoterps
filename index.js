@@ -35,8 +35,38 @@ app.post("/game", (req, res) => {
       "https://dbknews.s3.amazonaws.com/uploads/2022/09/abandonedumd.color_jr-1-1.jpg",
   });
 });
+app.post("/success", async (req, res) => {
 
-app.post("/success", (req, res) => res.render("game", { result: "success" }));
+  const lat = "38.9891263587382";
+  const long = "-76.93646009768167";
+
+  const databaselat = "38.9891263587382";
+  const databaselong = "-76.93646009768161";
+  const url = `https://distance-calculator.p.rapidapi.com/distance/simple?lat_1=${lat}&long_1=${long}&lat_2=${databaselat}&long_2=${databaselong}&unit=miles&decimal_places=2`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-RapidAPI-Key': process.env.API_KEY,
+      'X-RapidAPI-Host': 'distance-calculator.p.rapidapi.com'
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const result = await response.text();
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+  res.render("game", { result: "success" })
+});
+
+
+
+
+
+
 app.post("/failure", (req, res) => res.render("game", { result: "failure" }));
 
 app.listen(8000, () =>
