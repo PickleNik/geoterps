@@ -6,23 +6,57 @@ html
     script(src='https://cdn.tailwindcss.com')
     script(src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js")
   body.relative.bg-neutral-900.flex.flex-col.h-screen.text-white
-    img.grid.place-items-center.h-full.object-cover.absolute.top-0.left-0.w-full.h-full.blur-3xl.brightness-50.-z-10(src="https://images.squarespace-cdn.com/content/v1/5cd38a0216b6404a21325b17/1561653713501-1O29WKGNEBJEUP3E7AKE/HornbakePlaza_11092011_6674.jpg?format=1000w")
+    img.grid.place-items-center.h-full.object-cover.absolute.top-0.left-0.w-full.h-full.blur-3xl.brightness-50.-z-10(draggable="false" src="https://pbs.twimg.com/media/EIFEpnEXkAAc5_p?format=jpg&name=large")
 
-    #map.grid.place-items-center.fixed.right-16.bottom-16.duration-500.cursor-pointer(class="rounded-[1.5rem] h-2/3 aspect-square scale-[0.95] hover:scale-100")
+    #time.absolute(class="left-1/2 top-6 -translate-x-1/2")
+      div.rounded-full.select-none.text-4xl.font-bold.px-3.py-2.relative.w-fit.overflow-hidden(class="bg-neutral-700/50 backdrop-blur-2xl") 0:35
 
-    .absolute(class="left-1/2 top-16 -translate-x-1/2")
-      div.rounded-full.text-4xl.font-bold.px-4.py-3.relative.w-fit.overflow-hidden(class="bg-neutral-700/50 backdrop-blur-2xl") 0:35
+    #map.grid.place-items-center.fixed.right-8.bottom-8.duration-500.cursor-pointer(class="rounded-[1.5rem] h-1/5 aspect-square scale-[0.95] opacity-50 hover:opacity-100 hover:scale-100 hover:h-[calc(100%-8rem)]")
 
-    img.grid.place-items-center.h-full.object-contain(src="https://images.squarespace-cdn.com/content/v1/5cd38a0216b6404a21325b17/1561653713501-1O29WKGNEBJEUP3E7AKE/HornbakePlaza_11092011_6674.jpg?format=1000w")
+    img#img.grid.place-items-center.h-full.object-contain(draggable="false" src="https://pbs.twimg.com/media/EIFEpnEXkAAc5_p?format=jpg&name=large")
     script.
       var map = L.map('map').setView([38.9874, -76.9421], 15);
+      document.getElementById('map').addEventListener('mouseenter', () => {
+        setTimeout(() => {
+          map.invalidateSize()
+        }, 330)
+      })
+      //- on press and hold of the #img element, hide the map and time
+      document.getElementById('img').addEventListener('mousedown', () => {
+        document.getElementById('map').classList.add('hidden')
+        document.getElementById('time').classList.add('hidden')
+      });
+      document.getElementById('img').addEventListener('mouseup', () => {
+        document.getElementById('map').classList.remove('hidden')
+        document.getElementById('time').classList.remove('hidden')
+      });
+      //- if mouse moved out of the window, show the map and time
+      document.addEventListener('mouseout', (e) => {
+        if (e.relatedTarget === null) {
+          document.getElementById('map').classList.remove('hidden')
+          document.getElementById('time').classList.remove('hidden')
+        }
+      });
+      //- on press and hold of the 'h' key, hide the map and time
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'h') {
+          document.getElementById('map').classList.add('hidden')
+          document.getElementById('time').classList.add('hidden')
+        }
+      });
+      document.addEventListener('keyup', (e) => {
+        if (e.key === 'h') {
+          document.getElementById('map').classList.remove('hidden')
+          document.getElementById('time').classList.remove('hidden')
+        }
+      });
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(map);
-      let cords = { lat: 38.9891263587382, lng: -76.93646009768167 };
+      }).addTo(map)
+      let cords = { lat: 38.9891263587382, lng: -76.93646009768167 }
       map.on("click", (e) => {
-        L.marker(e.latlng).addTo(map);
-        L.marker(cords).addTo(map);
-        L.polyline([cords, e.latlng]).addTo(map);
-      });
+        L.marker(e.latlng).addTo(map)
+        L.marker(cords).addTo(map)
+        L.polyline([cords, e.latlng]).addTo(map)
+      })
