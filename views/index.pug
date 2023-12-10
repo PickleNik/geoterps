@@ -5,7 +5,14 @@ html
     script(src='https://cdn.tailwindcss.com')
   body.bg-neutral-900.grid.place-items-center.min-h-screen.text-white
     h1.text-9xl.font-bold.text-neutral-600.absolute.-z-10(class="-translate-y-1/2") meow
-    form(method="POST" action="/game").flex.flex-col.gap-8.items-center.justify-center
+    form(method="POST" action="/game").flex.flex-col.gap-8.items-center.justify-center.-mt-24
+      h1.text-7xl.font-bold.flex
+        span Ge
+        .relative.w-12.h-12.mt-8
+          .h-16.w-16.rounded-full.bg-red-500.absolute(class="left-1/2 top-1 -translate-y-1/2 -translate-x-1/2")
+          .h-8.w-8.rounded-full.bg-white.absolute(class="left-1/2 top-1 -translate-y-1/2 -translate-x-1/2")
+          .h-10.w-10.rotate-45.bg-red-500.absolute.-z-10(class="left-1/2 top-0 -translate-x-1/2")
+        span Terps
       fieldset.rounded-xl.border.border-neutral-400.font-mono.p-4.flex.flex-col.gap-2(class="bg-neutral-800/50 backdrop-blur-sm")
         legend.text-neutral-400 Choose difficulty
         .flex.gap-2
