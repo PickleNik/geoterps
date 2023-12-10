@@ -40,14 +40,16 @@ html
         }, 330)
       })
       //- on press and hold of the #img element, hide the map and time
-      document.getElementById('img').addEventListener('mousedown', () => {
-        document.getElementById('map').classList.add('hidden')
-        document.getElementById('time').classList.add('hidden')
-      });
-      document.getElementById('img').addEventListener('mouseup', () => {
-        document.getElementById('map').classList.remove('hidden')
-        document.getElementById('time').classList.remove('hidden')
-      });
+      document.getElementById('img') && (
+        document.getElementById('img').addEventListener('mousedown', () => {
+          document.getElementById('map').classList.add('hidden')
+          document.getElementById('time').classList.add('hidden')
+        }),
+        document.getElementById('img').addEventListener('mouseup', () => {
+          document.getElementById('map').classList.remove('hidden')
+          document.getElementById('time').classList.remove('hidden')
+        })
+      );
       //- if mouse moved out of the window, show the map and time
       document.addEventListener('mouseout', (e) => {
         if (e.relatedTarget === null) {
@@ -83,6 +85,21 @@ html
         document.getElementById('lng').value = e.latlng.lng
         document.getElementById('success').submit()
       })
+      let result = !{result}
+      console.log(result)
+      //- TODO: fix this
+      //- let point = JSON.parse(!{point})
+      //- console.log(point)
+      //- let coords = JSON.parse(!{coords})
+      //- console.log(coords)
+
+      //- if (result === 'success' && point && coords) {
+      //-   console.log(point);
+      //-   console.log(coords);
+      //-   L.marker(coords).addTo(map)
+      //-   L.marker(point).addTo(map)
+      //-   L.polyline([coords, point]).addTo(map)
+      //- }
       //- set a timer countdown from 2 minutes (minutes:seconds)
       let countdown = !{120}
       let timer = setInterval(() => {

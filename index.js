@@ -68,6 +68,8 @@ app.post("/success", async (req, res) => {
     console.log(score);
     res.render("game", {
       result: "success",
+      point: JSON.stringify({ lat: lat, lng: lng }),
+      coords: JSON.stringify({ lat: databaselat, lng: databaselong }),
       score: score,
       image:
         "https://dbknews.s3.amazonaws.com/uploads/2022/09/abandonedumd.color_jr-1-1.jpg",
