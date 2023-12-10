@@ -30,6 +30,7 @@ app.post("/game", (req, res) => {
   console.log(difficulty);
   let timer = 120;
   res.render("game", {
+    result: "playing",
     timer: timer,
     image:
       "https://dbknews.s3.amazonaws.com/uploads/2022/09/abandonedumd.color_jr-1-1.jpg",
@@ -55,16 +56,9 @@ app.post("/success", async (req, res) => {
     const result = await response.text();
     const json = await JSON.parse(result);
     const distance = json.distance;
-    const score =
-      distance > 0.05
-        ? Math.min(
-            Math.max((-1000 / Math.E) * Math.log(distance + 0.5), 0),
-            1000
-          )
-        : Math.min(
-            Math.max((-1000 / Math.E) * Math.log(distance + 0.06), 0),
-            1000
-          );
+    const score = Math.round(
+      Math.min(Math.max(1000 * Math.exp(-8 * distance + 0.05), 0), 1000)
+    );
     console.log(score);
     res.render("game", {
       result: "success",
