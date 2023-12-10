@@ -2,14 +2,21 @@ doctype html
 html
   head
     title= yippeee
+    link(rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css")
     script(src='https://cdn.tailwindcss.com')
+    script(src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js")
   body.relative.bg-neutral-900.flex.flex-col.h-screen.text-white
     img.grid.place-items-center.h-full.object-cover.absolute.top-0.left-0.w-full.h-full.blur-3xl.brightness-50.-z-10(src="https://res.cloudinary.com/simpleview/image/upload/v1556568108/clients/princegeorgesmd/PGCVB0917_UMD_Aerial_2__4412b5cb-6ac9-417c-8a67-dee5e9c963ab.jpg")
 
-    .grid.place-items-center.bg-neutral-700.fixed.right-16.bottom-16.duration-500.cursor-pointer(class="rounded-[1.5rem] h-1/5 aspect-square scale-[0.95] hover:scale-100 bg-neutral-700/50 hover:bg-neutral-700 backdrop-blur-2xl active:duration-300 active:h-[calc(100%-8rem)]") map
+    #map.grid.place-items-center.fixed.right-16.bottom-16.duration-500.cursor-pointer(class="rounded-[1.5rem] h-2/3 aspect-square scale-[0.95] hover:scale-100")
 
     .absolute(class="left-1/2 top-16 -translate-x-1/2")
       div.rounded-full.text-4xl.font-bold.px-4.py-3.relative.w-fit.overflow-hidden(class="bg-neutral-700/50 backdrop-blur-2xl") 0:35
 
     img.grid.place-items-center.h-full.object-contain(src="https://res.cloudinary.com/simpleview/image/upload/v1556568108/clients/princegeorgesmd/PGCVB0917_UMD_Aerial_2__4412b5cb-6ac9-417c-8a67-dee5e9c963ab.jpg")
-    
+    script.
+      var map = L.map('map').setView([38.9874, -76.9421], 15);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
