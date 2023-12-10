@@ -36,36 +36,45 @@ app.post("/game", (req, res) => {
   });
 });
 app.post("/success", async (req, res) => {
-
-  const lat = "38.9891263587382";
-  const long = "-76.93646009768167";
-
+  const lat = req.body.lat;
+  const lng = req.body.lng;
   const databaselat = "38.9891263587382";
   const databaselong = "-76.93646009768161";
-  const url = `https://distance-calculator.p.rapidapi.com/distance/simple?lat_1=${lat}&long_1=${long}&lat_2=${databaselat}&long_2=${databaselong}&unit=miles&decimal_places=2`;
+  const url = `https://distance-calculator.p.rapidapi.com/distance/simple?lat_1=${lat}&long_1=${lng}&lat_2=${databaselat}&long_2=${databaselong}&unit=miles&decimal_places=2`;
   const options = {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
-      'X-RapidAPI-Key': process.env.API_KEY,
-      'X-RapidAPI-Host': 'distance-calculator.p.rapidapi.com'
-    }
+      "Content-Type": "application/json",
+      "X-RapidAPI-Key": process.env.API_KEY,
+      "X-RapidAPI-Host": "distance-calculator.p.rapidapi.com",
+    },
   };
 
   try {
     const response = await fetch(url, options);
     const result = await response.text();
+    const json = await JSON.parse(result);
+    const distance = json.distance;
+    const score =
+      distance > 0.05
+        ? Math.min(
+            Math.max((-1000 / Math.E) * Math.log(distance + 0.5), 0),
+            1000
+          )
+        : Math.min(
+            Math.max((-1000 / Math.E) * Math.log(distance + 0.06), 0),
+            1000
+          );
+    console.log(score);
+    res.render("game", {
+      result: "success",
+      score: score,
+    });
     console.log(result);
   } catch (error) {
     console.error(error);
   }
-  res.render("game", { result: "success" })
 });
-
-
-
-
-
 
 app.post("/failure", (req, res) => res.render("game", { result: "failure" }));
 
