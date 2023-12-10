@@ -69,6 +69,8 @@ app.post("/success", async (req, res) => {
     res.render("game", {
       result: "success",
       score: score,
+      image:
+        "https://dbknews.s3.amazonaws.com/uploads/2022/09/abandonedumd.color_jr-1-1.jpg",
     });
     console.log(result);
   } catch (error) {
