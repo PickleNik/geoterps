@@ -20,6 +20,9 @@ html
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(map);
+      let cords = { lat: 38.9891263587382, lng: -76.93646009768167 };
       map.on("click", (e) => {
-        console.log(e.latlng);
+        L.marker(e.latlng).addTo(map);
+        L.marker(cords).addTo(map);
+        L.polyline([cords, e.latlng]).addTo(map);
       });
