@@ -26,6 +26,8 @@ app.set("view engine", "pug");
 app.get("/", (_, res) => res.render("index"));
 // TODO: pull images from database, select a random one, and display it
 app.get("/game", (_, res) => res.render("game"));
+// TODO: get difficulty from form, set images and timer based on difficulty
+app.post("/game", (_, res) => res.render("game"));
 
 app.post("/success", (req, res) => res.render("game", { result: "success" }));
 app.post("/failure", (req, res) => res.render("game", { result: "failure" }));
