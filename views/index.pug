@@ -1,4 +1,9 @@
 doctype html
 html
-  body
-    h1 meow
+  head
+    title= geoterps
+    script(src='https://cdn.tailwindcss.com')
+  body.bg-neutral-900.grid.place-items-center.min-h-screen.text-white
+    h1.text-9xl.font-bold.text-neutral-600.absolute.-z-10(class="-translate-y-1/2") meow
+    a.px-3.py-2.bg-emerald-500.font-bold.text-4xl.rounded-3xl.duration-300(class="hover:bg-indigo-400 hover:scale-125 hover:rounded-[3rem] active:duration-75 active:scale-90 active:rounded-xl active:bg-red-400 shadow-[0_0_5rem_-0.25rem_#12b981] hover:shadow-[0_0_5rem_5rem_#818cf822]" href="/game") Start
+    

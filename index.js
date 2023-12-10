@@ -23,7 +23,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 
-app.get("/", (_, res) => res.render("index"))
+app.get("/", (_, res) => res.render("index"));
+app.get("/game", (_, res) => res.render("game"));
 
 app.listen(8000);
 console.log(`Web server started and running at http://localhost:8000`);
