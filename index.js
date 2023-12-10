@@ -27,5 +27,8 @@ app.get("/", (_, res) => res.render("index"));
 // TODO: pull images from database, select a random one, and display it
 app.get("/game", (_, res) => res.render("game"));
 
+app.post("/success", (req, res) => res.render("game", { result: "success" }));
+app.post("/failure", (req, res) => res.render("game", { result: "failure" }));
+
 app.listen(8000);
 console.log(`Web server started and running at http://localhost:8000`);
