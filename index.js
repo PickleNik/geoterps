@@ -24,10 +24,17 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 
 app.get("/", (_, res) => res.render("index"));
-// TODO: pull images from database, select a random one, and display it
-app.get("/game", (_, res) => res.render("game"));
-// TODO: get difficulty from form, set images and timer based on difficulty
-app.post("/game", (_, res) => res.render("game"));
+app.post("/game", (req, res) => {
+  const { difficulty } = req.body;
+  // easy | medium | hard | mixed
+  console.log(difficulty);
+  let timer = 120;
+  res.render("game", {
+    timer: timer,
+    image:
+      "https://dbknews.s3.amazonaws.com/uploads/2022/09/abandonedumd.color_jr-1-1.jpg",
+  });
+});
 
 app.post("/success", (req, res) => res.render("game", { result: "success" }));
 app.post("/failure", (req, res) => res.render("game", { result: "failure" }));

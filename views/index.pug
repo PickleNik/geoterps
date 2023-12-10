@@ -17,7 +17,7 @@ html
         legend.text-neutral-400 Choose difficulty
         .flex.gap-2
           label.cursor-pointer.duration-300.flex.flex-row-reverse.gap-2.origin-left(class="hover:scale-[1.5]" for="easy") Easy
-            input#easy(type="radio" name="difficulty" value="easy" checked)
+            input#easy(type="radio" name="difficulty" value="easy")
         .flex.gap-2
           label.cursor-pointer.duration-300.flex.flex-row-reverse.gap-2.origin-left(class="hover:scale-[1.5]" for="medium") Medium
             input#medium(type="radio" name="difficulty" value="medium")
@@ -26,5 +26,5 @@ html
             input#hard(type="radio" name="difficulty" value="hard")
         .flex.gap-2
           label.cursor-pointer.duration-300.flex.flex-row-reverse.gap-2.origin-left(class="hover:scale-[1.5]" for="mixed") Mixed
-            input#mixed(type="radio" name="difficulty" value="mixed")
+            input#mixed(type="radio" name="difficulty" value="mixed" checked)
       button.px-3.py-2.bg-emerald-500.font-bold.text-4xl.rounded-xl.duration-300(class="hover:bg-indigo-400 hover:scale-125 hover:rounded-2xl active:duration-75 active:scale-90 active:rounded-xl active:bg-red-400 shadow-[0_0_5rem_-0.25rem_#12b981] hover:shadow-[0_0_5rem_5rem_#818cf822]" href="/game") Start
