@@ -13,7 +13,7 @@ html
     form#success.form.hidden(action="/success" method="POST")
     form#failure.form.hidden(action="/failure" method="POST")
 
-    img.grid.place-items-center.h-full.object-cover.absolute.top-0.left-0.w-full.h-full.blur-3xl.brightness-50.-z-10(draggable="false" src="https://dbknews.s3.amazonaws.com/uploads/2022/09/abandonedumd.color_jr-1-1.jpg")
+    img.grid.place-items-center.h-full.object-cover.absolute.top-0.left-0.w-full.h-full.blur-3xl.brightness-50.-z-10(draggable="false" src=image)
     #time.absolute.rounded-full.select-none.text-4xl.font-bold.px-4.py-2(class="bg-neutral-700/50 backdrop-blur-2xl left-1/2 top-6 -translate-x-1/2 w-fit translate-all") loading
 
     if result === 'success'
@@ -32,7 +32,7 @@ html
 
       #map.grid.place-items-center.fixed.right-8.bottom-8.duration-500.cursor-pointer(class="rounded-[1.5rem] h-1/5 aspect-square scale-[0.95] opacity-50 hover:opacity-100 hover:scale-100 hover:h-[calc(100%-8rem)]")
 
-      img#img.grid.place-items-center.h-full.object-contain(draggable="false" src="https://dbknews.s3.amazonaws.com/uploads/2022/09/abandonedumd.color_jr-1-1.jpg")
+      img#img.grid.place-items-center.h-full.object-contain(draggable="false" src=image)
     
     script.
       //- -----UI THINGS-----
