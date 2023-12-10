@@ -23,8 +23,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 
-app.get("/api", (_, res) => res.render("index"));
-app.post("/api/game", (req, res) => {
+app.get("/", (_, res) => res.render("index"));
+app.post("/game", (req, res) => {
   const { difficulty } = req.body;
   // easy | medium | hard | mixed
   console.log(difficulty);
@@ -39,7 +39,6 @@ app.post("/api/game", (req, res) => {
 app.post("/success", (req, res) => res.render("game", { result: "success" }));
 app.post("/failure", (req, res) => res.render("game", { result: "failure" }));
 
-app.listen(8000);
-console.log(`Web server started and running at http://localhost:8000`);
-
-export default app;
+app.listen(8000, () =>
+  console.log(`Web server started and running at http://localhost:8000`)
+);
