@@ -2,15 +2,7 @@ import "dotenv/config";
 import express from "express";
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-const {
-  MONGO_COLLECTION: collection,
-  MONGO_DB_NAME: db,
-  MONGO_DB_PASSWORD: password,
-  MONGO_DB_USERNAME: username,
-} = process.env;
-
-const uri = `mongodb+srv://${username}:${password}@cluster0.rvktjyh.mongodb.net/?retryWrites=true&w=majority`;
-// const cl = new MongoClient(uri, {
+// const cl = new MongoClient(process.env.MONGODB_URI, {
 //   serverApi: {
 //     version: ServerApiVersion.v1,
 //     strict: true,
@@ -57,7 +49,7 @@ app.post("/success", async (req, res) => {
     const json = await JSON.parse(result);
     const distance = json.distance;
     const score = Math.round(
-      Math.min(Math.max(1000 * Math.exp(-8 * distance + 0.05), 0), 1000)
+      Math.min(Math.max(1000 * Math.exp(-8 * distance + 0.05), 0), 1000),
     );
     console.log(score);
     res.render("game", {
@@ -77,5 +69,5 @@ app.post("/success", async (req, res) => {
 app.post("/failure", (req, res) => res.render("game", { result: "failure" }));
 
 app.listen(8000, () =>
-  console.log(`Web server started and running at http://localhost:8000`)
+  console.log(`Web server started and running at http://localhost:8000`),
 );
