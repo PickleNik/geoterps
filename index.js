@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import { resolve } from "path";
 import { GridFSBucket, MongoClient, ServerApiVersion } from "mongodb";
 
 const cl = new MongoClient(process.env.MONGODB_URI, {
@@ -14,6 +15,7 @@ const bucket = new GridFSBucket(db);
 const collection = db.collection(process.env.MONGODB_COLLECTION);
 
 const app = express();
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 
@@ -28,10 +30,14 @@ app.post("/game", async (req, res) => {
   const { id } = await collection.aggregate(pipeline).tryNext();
   let timer = 120;
   res.render("game", {
-    result: "playing",
     timer: timer,
     id,
   });
+});
+
+app.get("/game.js", (_, res) => {
+  res.type("javascript");
+  res.sendFile(resolve("game.js"));
 });
 
 app.get("/image/:id", async (req, res) => {
@@ -44,12 +50,11 @@ app.get("/image/:id", async (req, res) => {
   }
 });
 
-app.post("/success", async (req, res) => {
+app.post("/submit", async (req, res) => {
   const { id, lat, lng } = req.body;
-  console.table(req.body);
-  const correct = await collection.findOne({id});
-  console.table(correct);
-  const url = `https://distance-calculator.p.rapidapi.com/distance/simple?lat_1=${lat}&long_1=${lng}&lat_2=${correct.latitude}&long_2=${correct.longitude}&unit=miles&decimal_places=2`;
+  let correct = await collection.findOne({ id });
+  correct = { lat: correct.latitude, lng: correct.longitude };
+  const url = `https://distance-calculator.p.rapidapi.com/distance/simple?lat_1=${lat}&long_1=${lng}&lat_2=${correct.lat}&long_2=${correct.lng}&unit=miles&decimal_places=2`;
   const options = {
     method: "GET",
     headers: {
@@ -65,14 +70,11 @@ app.post("/success", async (req, res) => {
     const json = await JSON.parse(result);
     const distance = json.distance;
     const score = Math.round(
-      Math.min(Math.max(1000 * Math.exp(-8 * distance + 0.05), 0), 1000),
+      Math.min(Math.max(1000 * Math.exp(-8 * distance + 0.05), 0), 1000)
     );
     console.log(score);
-    res.render("game", {
-      result: "success",
-      point: JSON.stringify({ lat: lat, lng: lng }),
-      // coords: JSON.stringify(correct),
-      id,
+    res.send({
+      coords: correct,
       score: score,
     });
     console.log(result);
@@ -81,8 +83,6 @@ app.post("/success", async (req, res) => {
   }
 });
 
-app.post("/failure", (req, res) => res.render("game", { result: "failure" }));
-
 app.listen(8000, () =>
-  console.log(`Web server started and running at http://localhost:8000`),
+  console.log(`Web server started and running at http://localhost:8000`)
 );

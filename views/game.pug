@@ -6,114 +6,21 @@ html(lang="en")
     script(src='https://cdn.tailwindcss.com')
     script(src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js")
   body.relative.bg-neutral-900.flex.flex-col.h-screen.text-white
-    form#success.form.hidden(action="/success" method="POST")
-      input#lat(type="hidden" name="lat")
-      input#lng(type="hidden" name="lng")
-      input(type="hidden" name="id" value=id)
-    form#failure.form.hidden(action="/failure" method="POST")
-
     img.grid.place-items-center.h-full.object-cover.absolute.top-0.left-0.w-full.h-full.blur-3xl.brightness-50.-z-10(draggable="false" src="/image/" + id)
 
     #time.absolute.rounded-full.select-none.text-4xl.font-bold.px-4.py-2(class="bg-neutral-700/50 backdrop-blur-2xl left-1/2 top-6 -translate-x-1/2 w-fit translate-all") loading
     #map.grid.place-items-center.fixed.right-8.bottom-8.duration-500.cursor-pointer(class="rounded-[1.5rem] h-1/5 aspect-square scale-[0.95] opacity-50 hover:opacity-100 hover:scale-100 hover:h-[calc(100%-8rem)]")
 
-    if result === 'success'
+    if result === 'submit'
       .m-auto
         h1.text-6xl.font-bold.text-center.mt-8.mb-4.text-transparent.bg-gradient-to-r.from-rose-500.to-indigo-500.bg-clip-text #{parseInt(score)}
         h1.text-6xl.font-bold.text-center.mt-8.mb-4 Yippeee!
         p.text-center.mt-4.mb-8 YIPPEEE
         p.text-center.mt-4.mb-8
           a(href="/") Play again?
-    else if result === 'failure'
-      .my-auto
-        h1.text-6xl.font-bold.text-center.mt-8.mb-4.text-rose-500 🐌 You ran out of time!
-        p.text-center.mt-4.mb-8 L bozo
-        p.text-center.mt-4.mb-8
-          a(href="/") Play again?
     else
       img#img.grid.place-items-center.h-full.object-contain(draggable="false" src="/image/" + id)
-    
     script.
-      //- -----UI THINGS-----
-      document.getElementById('map').addEventListener('mouseenter', () => {
-        setTimeout(() => {
-          map.invalidateSize()
-        }, 330)
-      })
-      //- on press and hold of the #img element, hide the map and time
-      document.getElementById('img') && (
-        document.getElementById('img').addEventListener('mousedown', () => {
-          document.getElementById('map').classList.add('hidden')
-          document.getElementById('time').classList.add('hidden')
-        }),
-        document.getElementById('img').addEventListener('mouseup', () => {
-          document.getElementById('map').classList.remove('hidden')
-          document.getElementById('time').classList.remove('hidden')
-        })
-      );
-      //- if mouse moved out of the window, show the map and time
-      document.addEventListener('mouseout', (e) => {
-        if (e.relatedTarget === null) {
-          document.getElementById('map').classList.remove('hidden')
-          document.getElementById('time').classList.remove('hidden')
-        }
-      });
-      //- on press and hold of the 'h' key, hide the map and time
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'h') {
-          document.getElementById('map').classList.add('hidden')
-          document.getElementById('time').classList.add('hidden')
-        }
-      });
-      document.addEventListener('keyup', (e) => {
-        if (e.key === 'h') {
-          document.getElementById('map').classList.remove('hidden')
-          document.getElementById('time').classList.remove('hidden')
-        }
-      });
-      //- -----GAME COUNTDOWN-----
-      var map = L.map('map').setView([38.9874, -76.9421], 15);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(map)
-      let cords = { lat: 38.9891263587382, lng: -76.93646009768167 }
-      map.on("click", (e) => {
-        L.marker(e.latlng).addTo(map)
-        L.marker(cords).addTo(map)
-        L.polyline([cords, e.latlng]).addTo(map)
-        document.getElementById('lat').value = e.latlng.lat
-        document.getElementById('lng').value = e.latlng.lng
-        document.getElementById('success').submit()
-      })
-      //- let result = !{result.toString()}
-      //- TODO: fix this
-      //- let point = JSON.parse(!{point})
-      //- console.log(point)
-      //- let coords = JSON.parse(!{coords})
-      //- console.log(coords)
-
-      //- if (result === 'success' && point && coords) {
-      //-   console.log(point);
-      //-   console.log(coords);
-      //-   L.marker(coords).addTo(map)
-      //-   L.marker(point).addTo(map)
-      //-   L.polyline([coords, point]).addTo(map)
-      //- }
-      //- set a timer countdown from 2 minutes (minutes:seconds)
-      let countdown = !{120}
-      let timer = setInterval(() => {
-        countdown--
-        let minutes = Math.floor(countdown / 60)
-        let seconds = countdown % 60
-        if (seconds < 10) {
-          seconds = '0' + seconds
-        }
-        document.getElementById('time').innerHTML = `${minutes}:${seconds}`
-        if (countdown === 0) {
-          clearInterval(timer)
-          document.getElementById('time').innerHTML = 'Time\'s up!'
-          //- submit failure form
-          document.getElementById('failure').submit()
-        }
-      }, 1000)
+      var id="#{id}";
+      var countdown = !{timer};
+    script(src="./game.js")
