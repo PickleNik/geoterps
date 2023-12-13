@@ -8,18 +8,11 @@ html(lang="en")
   body.relative.bg-neutral-900.flex.flex-col.h-screen.text-white
     img.grid.place-items-center.h-full.object-cover.absolute.top-0.left-0.w-full.h-full.blur-3xl.brightness-50.-z-10(draggable="false" src="/image/" + id)
 
-    #time.absolute.rounded-full.select-none.text-4xl.font-bold.px-4.py-2(class="bg-neutral-700/50 backdrop-blur-2xl left-1/2 top-6 -translate-x-1/2 w-fit translate-all") loading
     #map.grid.place-items-center.fixed.right-8.bottom-8.duration-500.cursor-pointer(class="rounded-[1.5rem] h-1/5 aspect-square scale-[0.95] opacity-50 hover:opacity-100 hover:scale-100 hover:h-[calc(100%-8rem)]")
+    #time.absolute.rounded-full.select-none.text-4xl.font-bold.px-4.py-2.duration-300(class="bg-neutral-900/50 backdrop-blur-2xl left-1/2 top-6 -translate-x-1/2 w-fit translate-all") loading
 
-    if result === 'submit'
-      .m-auto
-        h1.text-6xl.font-bold.text-center.mt-8.mb-4.text-transparent.bg-gradient-to-r.from-rose-500.to-indigo-500.bg-clip-text #{parseInt(score)}
-        h1.text-6xl.font-bold.text-center.mt-8.mb-4 Yippeee!
-        p.text-center.mt-4.mb-8 YIPPEEE
-        p.text-center.mt-4.mb-8
-          a(href="/") Play again?
-    else
-      img#img.grid.place-items-center.h-full.object-contain(draggable="false" src="/image/" + id)
+    img#img.grid.place-items-center.h-full.object-contain(draggable="false" src="/image/" + id)
+
     script.
       var id="#{id}";
       var countdown = !{timer};

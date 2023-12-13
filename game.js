@@ -34,17 +34,32 @@ const mapclick = (e) => {
     .then((data) => {
       L.marker(data.coords).addTo(map);
       L.polyline([data.coords, e.latlng]).addTo(map);
-      timeElem.innerHTML = `Score: ${data.score}`;
-      map.off("click", mapclick);
       // mangle the map
+      map.off("click", mapclick);
       mapElem.removeEventListener("mouseenter", maphover);
-      mapElem.classList.add("w-[calc(100%-4rem)]");
-      mapElem.classList.add("h-[calc(100%-8rem)]");
-      mapElem.classList.remove("hover:h-[calc(100%-8rem)]");
-      mapElem.classList.remove("hover:scale-100", "hover:opacity-100");
-      mapElem.classList.add("scale-100");
-      mapElem.classList.add("invert", "brightness-110", "contrast-110");
+      mapElem.classList.add(
+        "transition-all",
+        "duration-500",
+        "w-full",
+        "h-full",
+        "bottom-0",
+        "right-0",
+        "rounded-none",
+        "scale-100",
+        "invert",
+        "brightness-110",
+        "contrast-110"
+      );
+      mapElem.classList.remove(
+        "hover:h-[calc(100%-8rem)]",
+        "hover:scale-100",
+        "hover:opacity-100"
+      );
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 330);
 
+      // mangle the time
       timeElem.classList.remove("bg-neutral-700/50");
       timeElem.classList.add(
         "bg-black/50",
@@ -56,10 +71,59 @@ const mapclick = (e) => {
         "to-emerald-400",
         "shadow-[-1rem_0_3rem_-0.5rem_#f8f8,1rem_0_3rem_-0.5rem_#8f88]"
       );
+      clearInterval(timerInterval);
 
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 330);
+      let score = document.createElement("h1");
+      score.innerHTML = data.score;
+      score.classList.add(
+        "absolute",
+        "top-1/2",
+        "left-1/2",
+        "-translate-x-1/2",
+        "-translate-y-1/2",
+        "text-9xl",
+        "font-bold",
+        "text-transparent",
+        "bg-clip-text",
+        "italic",
+        "bg-gradient-to-r",
+        "from-fuchsia-400",
+        "via-blue-400",
+        "to-emerald-400"
+      );
+      // text shadow
+      score.style.textShadow = `
+        -1rem 0 3rem -0.5rem #f8f8,
+        1rem 0 3rem -0.5rem #8f88
+      `;
+      document.documentElement.appendChild(score);
+
+      let playAgain = document.createElement("a");
+      playAgain.href = "/";
+      playAgain.innerHTML = "Play again";
+      playAgain.classList.add(
+        "absolute",
+        "bottom-8",
+        "py-2",
+        "px-4",
+        "left-1/2",
+        "-translate-x-1/2",
+        "hover:scale-125",
+        "duration-300",
+        "hover:-translate-y-2",
+        "mx-auto",
+        "rounded-full",
+        "text-center",
+        "text-2xl",
+        "font-bold",
+        "text-white",
+        "bg-gradient-to-r",
+        "from-fuchsia-400",
+        "via-blue-400",
+        "to-emerald-400",
+        "shadow-[-1rem_0_3rem_-0.5rem_#f8f8,1rem_0_3rem_-0.5rem_#8f88]"
+      );
+      document.documentElement.appendChild(playAgain);
 
       imgElem.classList.add("hidden");
     })
@@ -81,6 +145,14 @@ let timerInterval = setInterval(() => {
   let seconds = countdown % 60;
   if (seconds < 10) {
     seconds = "0" + seconds;
+  }
+  // if below 10 seconds, make the time red
+  if (countdown < 10) {
+    timeElem.classList.add("scale-125");
+  }
+  // if below 30 seconds, make the time yellow
+  if (countdown < 30) {
+    timeElem.classList.add("text-orange-500", "animate-pulse");
   }
   timeElem.innerHTML = `${minutes}:${seconds}`;
   if (countdown === 0) {
