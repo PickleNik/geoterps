@@ -28,7 +28,9 @@ const collection = db.collection(process.env.MONGODB_COLLECTION);
 
 const tags = await ExifReader.load(path);
 const latitude = tags.GPSLatitude.description;
-const longitude = tags.GPSLongitude.description;
+const longitude = -tags.GPSLongitude.description;
+// console.log(tags);
+// process.exit(0);
 
 createReadStream(path).pipe(bucket.openUploadStream(id));
 await collection.insertOne({
@@ -39,4 +41,4 @@ await collection.insertOne({
 });
 
 console.log(`uploaded ${id} (${difficulty})`);
-process.exit(0);
+// process.exit(0);
