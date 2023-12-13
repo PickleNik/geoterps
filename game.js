@@ -138,6 +138,7 @@ map.on("click", mapclick);
 mapElem.addEventListener("mouseenter", maphover);
 
 //- -----GAME COUNTDOWN-----
+// TODO: end game // call /success with fake coords and finish the game
 // - set a timer countdown from 2 minutes (minutes:seconds)
 let timerInterval = setInterval(() => {
   countdown--;
