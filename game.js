@@ -44,6 +44,19 @@ const mapclick = (e) => {
       mapElem.classList.remove("hover:scale-100", "hover:opacity-100");
       mapElem.classList.add("scale-100");
       mapElem.classList.add("invert", "brightness-110", "contrast-110");
+
+      timeElem.classList.remove("bg-neutral-700/50");
+      timeElem.classList.add(
+        "bg-black/50",
+        "text-transparent",
+        "bg-clip-text",
+        "bg-gradient-to-r",
+        "from-fuchsia-400",
+        "via-blue-400",
+        "to-emerald-400",
+        "shadow-[-1rem_0_3rem_-0.5rem_#f8f8,1rem_0_3rem_-0.5rem_#8f88]"
+      );
+
       setTimeout(() => {
         map.invalidateSize();
       }, 330);
@@ -61,7 +74,7 @@ map.on("click", mapclick);
 mapElem.addEventListener("mouseenter", maphover);
 
 //- -----GAME COUNTDOWN-----
-//- set a timer countdown from 2 minutes (minutes:seconds)
+// - set a timer countdown from 2 minutes (minutes:seconds)
 let timerInterval = setInterval(() => {
   countdown--;
   let minutes = Math.floor(countdown / 60);
