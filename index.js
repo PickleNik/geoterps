@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import { resolve } from "path";
 import { GridFSBucket, MongoClient, ServerApiVersion } from "mongodb";
 
 const cl = new MongoClient(process.env.MONGODB_URI, {
@@ -34,6 +35,11 @@ app.post("/game", async (req, res) => {
   });
 });
 
+app.get("/game.js", (_, res) => {
+  res.type("javascript");
+  res.sendFile(resolve("game.js"));
+});
+
 app.get("/image/:id", async (req, res) => {
   try {
     res.type("jpeg");
@@ -46,8 +52,8 @@ app.get("/image/:id", async (req, res) => {
 
 app.post("/success", async (req, res) => {
   const { id, lat, lng } = req.body;
-  console.table(req.body);
-  const correct = await collection.findOne({id});
+  console.log(req.body);
+  const correct = await collection.findOne({ id });
   console.table(correct);
   const url = `https://distance-calculator.p.rapidapi.com/distance/simple?lat_1=${lat}&long_1=${lng}&lat_2=${correct.latitude}&long_2=${correct.longitude}&unit=miles&decimal_places=2`;
   const options = {
@@ -65,10 +71,10 @@ app.post("/success", async (req, res) => {
     const json = await JSON.parse(result);
     const distance = json.distance;
     const score = Math.round(
-      Math.min(Math.max(1000 * Math.exp(-8 * distance + 0.05), 0), 1000),
+      Math.min(Math.max(1000 * Math.exp(-8 * distance + 0.05), 0), 1000)
     );
     console.log(score);
-    res.render("game", {
+    res.send({
       result: "success",
       point: JSON.stringify({ lat: lat, lng: lng }),
       // coords: JSON.stringify(correct),
@@ -81,8 +87,6 @@ app.post("/success", async (req, res) => {
   }
 });
 
-app.post("/failure", (req, res) => res.render("game", { result: "failure" }));
-
 app.listen(8000, () =>
-  console.log(`Web server started and running at http://localhost:8000`),
+  console.log(`Web server started and running at http://localhost:8000`)
 );
