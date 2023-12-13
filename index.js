@@ -15,6 +15,7 @@ const bucket = new GridFSBucket(db);
 const collection = db.collection(process.env.MONGODB_COLLECTION);
 
 const app = express();
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 
