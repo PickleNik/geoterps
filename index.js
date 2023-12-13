@@ -30,7 +30,6 @@ app.post("/game", async (req, res) => {
   const { id } = await collection.aggregate(pipeline).tryNext();
   let timer = 120;
   res.render("game", {
-    result: "playing",
     timer: timer,
     id,
   });
@@ -51,12 +50,11 @@ app.get("/image/:id", async (req, res) => {
   }
 });
 
-app.post("/success", async (req, res) => {
+app.post("/submit", async (req, res) => {
   const { id, lat, lng } = req.body;
-  console.log(req.body);
-  const correct = await collection.findOne({ id });
-  console.table(correct);
-  const url = `https://distance-calculator.p.rapidapi.com/distance/simple?lat_1=${lat}&long_1=${lng}&lat_2=${correct.latitude}&long_2=${correct.longitude}&unit=miles&decimal_places=2`;
+  let correct = await collection.findOne({ id });
+  correct = { lat: correct.latitude, lng: correct.longitude };
+  const url = `https://distance-calculator.p.rapidapi.com/distance/simple?lat_1=${lat}&long_1=${lng}&lat_2=${correct.lat}&long_2=${correct.lng}&unit=miles&decimal_places=2`;
   const options = {
     method: "GET",
     headers: {
@@ -76,10 +74,7 @@ app.post("/success", async (req, res) => {
     );
     console.log(score);
     res.send({
-      result: "success",
-      point: JSON.stringify({ lat: lat, lng: lng }),
-      // coords: JSON.stringify(correct),
-      id,
+      coords: correct,
       score: score,
     });
     console.log(result);
